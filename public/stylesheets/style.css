@@ -1,0 +1,80 @@
+body {
+	width: 100%;
+}
+h1 {
+	width: 100%;
+	text-align: center;
+}
+
+a {
+	color: #00B7FF;
+}
+
+.content {
+	position: absolute;
+	top: 5%;
+	left: 0%;
+	width: 100%;
+	height: 100%;
+}
+.pic-container {
+	top: 0%;
+	left: 50%;
+	width: 90%;
+	min-height: 50%;
+}
+.pic-element {
+	float: left;
+	margin: 3%;
+	padding: 2%;
+	width: 15em;
+	height: 25em;
+	border: solid 2px #777777;
+	border-radius: 1em;
+}
+.pic-element img {
+	position: relative;
+	top: 5%;
+	left: 50%;
+	transform: translate(-50%, 0%);
+	max-width: 90%;
+	width: auto;
+	max-height: 80%;
+	height: auto;
+}
+.file-uploader {
+	visibility: hidden;
+}
+.button-wrapper {
+	position: relative;
+	top: 15%;
+	left: 50%;
+	transform: translateX(-50%);
+}
+.pic-button {
+	position: absolute;
+	width: 40%;
+	height: 2em;
+	transform: translateX(-50%);
+	font-size: 1.5em;
+}
+.pic-change {
+	left: 20%;
+}
+.pic-delete {
+	left: 80%;
+}
+.button-add {
+	float: left;
+	margin: 3%;
+	padding: 2%;
+	width: 15em;
+	height: 25em;
+}
+.button-add input {
+	position: relative;
+	top: 30%;
+	left: 50%;
+	transform: translate(-50%, 0%);
+	font-size: 3em;
+}
