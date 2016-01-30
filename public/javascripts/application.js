@@ -7,7 +7,7 @@ function picElement(newID) {
 	var buttonWrapper = document.createElement('div');
 	var imgDefault = document.createElement('img');
 	var uploadForm = document.createElement('form');
-	var idInput = document.createElement('input');
+	var idForm = document.createElement('input');
 
 	buttonChange.setAttribute('class', 'pic-button pic-change');
 	buttonDelete.setAttribute('class', 'pic-button pic-delete');
@@ -20,22 +20,24 @@ function picElement(newID) {
 
 	fileUpload.setAttribute('type', 'file');
 	fileUpload.setAttribute('onchange', 'imgChange(this);');
-	fileUpload.setAttribute('name', 'file');
-	idInput.setAttribute('type', 'text');
-	idInput.setAttribute('name', 'elementID');
+	fileUpload.setAttribute('name', 'image');
 	uploadForm.setAttribute('class', 'file-uploader');
+	uploadForm.setAttribute('enctype', 'multipart/form-data');
+	uploadForm.setAttribute('method', 'post');
+	idForm.setAttribute('type', 'text');
+	idForm.setAttribute('name', 'formid');
 
 	buttonWrapper.setAttribute('class', 'button-wrapper');
 	imgDefault.setAttribute('src', '../images/default.png');
 
 	outputElement.setAttribute('class', 'pic-element');
-	outputElement.setAttribute('id', '56ab0d087dfe95b0b168892a');
+	outputElement.setAttribute('id', '56acc7fd3a6be5bc79f58962');
 	
 	buttonWrapper.appendChild(buttonChange);
 	buttonWrapper.appendChild(buttonDelete);
 
 	uploadForm.appendChild(fileUpload);
-	uploadForm.appendChild(idInput);
+	uploadForm.appendChild(idForm);
 
 	outputElement.appendChild(imgDefault);
 	outputElement.appendChild(buttonWrapper);
@@ -56,9 +58,10 @@ function imgChange(element) {
             var srcData = fileLoadedEvent.target.result;
         }
 
-    var formData = new FormData();
-    formData.append('elementID', elementID);
-    formData.append('file', imgFile);
+    var formSubmit = document.getElementById(elementID).lastChild;
+    formSubmit.lastChild.setAttribute('value', elementID);
+    var formData = new FormData(formSubmit);
+    console.log(formData);
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/change');
     xhr.send(formData);

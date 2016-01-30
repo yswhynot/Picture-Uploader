@@ -2,26 +2,30 @@ var express = require('express');
 var mongoose = require('../lib/mongo');
 var router = express.Router();
 var fs = require('fs');
+var multer = require('multer');
+var uploadName;
 
-// var bodyParser = require('body-parser');
-
-// router.use( bodyParser.json() );       // to support JSON-encoded bodies
-// router.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-//   extended: true
-// })); 
-// router.use(express.json());       // to support JSON-encoded bodies
-// router.use(express.urlencoded()); // to support URL-encoded bodies
+var storage =   multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './storage');
+  },
+  filename: function (req, file, callback) {
+  	uploadName = file.originalname;
+    callback(null, file.originalname);
+  }
+});
+var upload = multer({ storage : storage});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	res.render('index', { title: 'Express' });
 });
 
-router.post('/change', function(req, res) {
-	var elementID = req.body.elementID;
-	// var img = req.files.file;
-	console.log(elementID);
-	mongoose.changePic(elementID, img);
+router.post('/change', upload.single('image'), function(req, res, next) {
+	var elementID = req.body.formid;
+	console.log('elementID: ' + elementID);
+	console.log('test:' + uploadName);
+	mongoose.changePic(elementID, uploadName);
 });
 
 router.post('/delete', function(req, res) {
