@@ -1,4 +1,4 @@
-function picElement(newID) {
+function picElement(newID, imgsrc) {
 	var outputElement = document.createElement('div');
 
 	var fileUpload = document.createElement('input');
@@ -28,10 +28,10 @@ function picElement(newID) {
 	idForm.setAttribute('name', 'formid');
 
 	buttonWrapper.setAttribute('class', 'button-wrapper');
-	imgDefault.setAttribute('src', '../images/default.png');
+	imgDefault.setAttribute('src', imgsrc);
 
 	outputElement.setAttribute('class', 'pic-element');
-	outputElement.setAttribute('id', '56acc7fd3a6be5bc79f58962');
+	outputElement.setAttribute('id', newID);
 	
 	buttonWrapper.appendChild(buttonChange);
 	buttonWrapper.appendChild(buttonDelete);
@@ -54,17 +54,16 @@ function imgChange(element) {
 	// load uploaded img file & elementID
 	var imgFile = fileUpload.files[0];
 	var fileReader = new FileReader();
-        fileReader.onload = function(fileLoadedEvent) {
-            var srcData = fileLoadedEvent.target.result;
-        }
+	fileReader.onload = function(fileLoadedEvent) {
+		var srcData = fileLoadedEvent.target.result;
+	}
 
-    var formSubmit = document.getElementById(elementID).lastChild;
-    formSubmit.lastChild.setAttribute('value', elementID);
-    var formData = new FormData(formSubmit);
-    console.log(formData);
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/change');
-    xhr.send(formData);
+	var formSubmit = document.getElementById(elementID).lastChild;
+	formSubmit.lastChild.setAttribute('value', elementID);
+	var formData = new FormData(formSubmit);
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', '/change');
+	xhr.send(formData);
 
 	// update HTML img src
 	var reader = new FileReader();
@@ -84,9 +83,10 @@ function deleteImg(element) {
 
 	// POST elementID
 	var request = new XMLHttpRequest();
-	request.open('POST', '/change', true);
-	request.setRequestHeader('Content-Type', 'text/plain');
-	request.send(elementID);
+	request.open('POST', '/delete', true);
+	request.setRequestHeader('Content-Type', 'application/json');
+	var sendData = {eid: elementID};
+	request.send(JSON.stringify(sendData));
 
 	// delete corresponding div in  HTML
 	var currentRoot = element.parentNode.parentNode;
@@ -96,26 +96,48 @@ function deleteImg(element) {
 function addImg() {
 	// GET elementID
 	var newID;
+	var newElement;
 	var request = new XMLHttpRequest();
 	request.open('GET', '/add', true);
-	request.onload = function() {
-		if (request.status >= 200 && request.status < 400) {
+	request.send();
+	request.onreadystatechange = function() {
+		if (request.readyState == XMLHttpRequest.DONE) {
 			newID = request.responseText;
+			console.log(request.responseText);
+			newElement = picElement(newID, '../images/default.png');
+
+			// add HTML div with elementID
+			var picContainer = document.getElementById('pic-container');
+			picContainer.insertBefore(newElement, picContainer.lastChild.previousSibling);
 		}
 	};
 
-	// add HTML div with elementID
-	var picContainer = document.getElementById('pic-container');
-	// var newElement = picElement(newID);
-	var newElement = picElement();
-	picContainer.insertBefore(newElement, picContainer.lastChild.previousSibling);
 }
 
 function initGetImg() {
+	var initArray;
+	var picContainer = document.getElementById('pic-container');
+
 	// GET media stream
+	var request  = new XMLHttpRequest();
+	request.open('GET', '/init', true);
+	request.send();
+	request.onreadystatechange = function() {
+		if(request.readyState == XMLHttpRequest.DONE) {
+			initArray = JSON.parse(request.responseText);
+			console.log('init: ' + initArray);
+			initArray.forEach( function(element) {
+				console.log('element: ' + element);
+				newElement = picElement(element, 'http://127.0.0.1:3000/storage/' + element + '.png')
+				picContainer.insertBefore(newElement, picContainer.lastChild.previousSibling);
+			});
+		}
+	}
 
-	// decode media stream
+}
 
-	// init all div list in HTML
+function downloadZip() {
+	document.location = 'data:Application/octet-stream,' +
+                         encodeURIComponent('http://127.0.0.1:3000/zip');
 }
 

@@ -5,8 +5,9 @@
 	<link rel='stylesheet' href='/stylesheets/style.css' />
 	<script src="javascripts/application.js" type="text/javascript" charset="utf-8"></script>
 </head>
-<body>
+<body onload="initGetImg();">
 	<h1>Picture Uploader</h1>
+	<input type="button" class="download" value="Download All" onclick="downloadZip();">
 	<div class="content">
 		<div id="pic-container" class="pic-container">
 			<div class="button-add">

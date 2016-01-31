@@ -10,9 +10,16 @@ a {
 	color: #00B7FF;
 }
 
+.download {
+	position: absolute;
+	top: 8%;
+	left: 50%;
+	transform: translate(-50%, 0%);
+}
+
 .content {
 	position: absolute;
-	top: 5%;
+	top: 10%;
 	left: 0%;
 	width: 100%;
 	height: 100%;

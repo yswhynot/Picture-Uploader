@@ -20,6 +20,8 @@
     "serve-favicon": "~2.3.0",
     "multer": "1.1.0",
     "mongoose": "*",
-    "fs": "*"
+    "fs": "*",
+    "mongodb": "*",
+    "adm-zip": "*"
   }
 }
