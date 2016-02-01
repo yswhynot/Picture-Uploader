@@ -12,9 +12,10 @@ a {
 
 .download {
 	position: absolute;
-	top: 8%;
+	top: 9%;
 	left: 50%;
 	transform: translate(-50%, 0%);
+	z-index: 10;
 }
 
 .content {

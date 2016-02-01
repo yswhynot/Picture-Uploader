@@ -56,7 +56,7 @@ function imgChange(element) {
 	var fileReader = new FileReader();
 	fileReader.onload = function(fileLoadedEvent) {
 		var srcData = fileLoadedEvent.target.result;
-	}
+	};
 
 	var formSubmit = document.getElementById(elementID).lastChild;
 	formSubmit.lastChild.setAttribute('value', elementID);
@@ -134,10 +134,5 @@ function initGetImg() {
 		}
 	}
 
-}
-
-function downloadZip() {
-	document.location = 'data:Application/octet-stream,' +
-                         encodeURIComponent('http://127.0.0.1:3000/zip');
 }
 
