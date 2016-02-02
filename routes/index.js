@@ -11,8 +11,8 @@ var storage =   multer.diskStorage({
     callback(null, './storage');
   },
   filename: function (req, file, callback) {
-  	uploadName = file.originalname;
-    callback(null, file.originalname);
+  	uploadName = req.body.formid + '.png';
+    callback(null, uploadName);
   }
 });
 var upload = multer({ storage : storage});
@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/change', upload.single('image'), function(req, res, next) {
 	var elementID = req.body.formid;
-	mongoose.changePic(elementID, uploadName);
+	mongoose.changePic(elementID);
 });
 
 router.post('/delete', function(req, res) {

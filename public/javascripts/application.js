@@ -36,8 +36,8 @@ function picElement(newID, imgsrc) {
 	buttonWrapper.appendChild(buttonChange);
 	buttonWrapper.appendChild(buttonDelete);
 
-	uploadForm.appendChild(fileUpload);
 	uploadForm.appendChild(idForm);
+	uploadForm.appendChild(fileUpload);
 
 	outputElement.appendChild(imgDefault);
 	outputElement.appendChild(buttonWrapper);
@@ -48,7 +48,7 @@ function picElement(newID, imgsrc) {
 
 function imgChange(element) {
 	var elementID = element.parentNode.parentNode.id;
-	var fileUpload = document.getElementById(elementID).lastChild.firstChild;
+	var fileUpload = document.getElementById(elementID).lastChild.lastChild;
 	var currentImg = document.getElementById(elementID).childNodes[0];
 
 	// load uploaded img file & elementID
@@ -59,7 +59,7 @@ function imgChange(element) {
 	};
 
 	var formSubmit = document.getElementById(elementID).lastChild;
-	formSubmit.lastChild.setAttribute('value', elementID);
+	formSubmit.firstChild.setAttribute('value', elementID);
 	var formData = new FormData(formSubmit);
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', '/change');
@@ -75,7 +75,7 @@ function imgChange(element) {
 
 function changeImg(element) {
 	var elementID = element.parentNode.parentNode.id;
-	document.getElementById(elementID).lastChild.firstChild.click();
+	document.getElementById(elementID).lastChild.lastChild.click();
 }
 
 function deleteImg(element) {
