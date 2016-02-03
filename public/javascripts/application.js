@@ -1,14 +1,19 @@
-function picElement(newID, imgsrc) {
+function picElement(newID, imgsrc, etitle) {
 	var outputElement = document.createElement('div');
 
 	var fileUpload = document.createElement('input');
-	var buttonDelete = document.createElement('input');
-	var buttonChange = document.createElement('input');
+	var buttonDeleteSpan = document.createElement('span');
+	var buttonDelete = document.createElement('a');
+	var buttonChangeSpan = document.createElement('span');
+	var buttonChange = document.createElement('a');
 	var buttonWrapper = document.createElement('div');
 	var imgDefault = document.createElement('img');
 	var uploadForm = document.createElement('form');
 	var idForm = document.createElement('input');
+	var inputDesp = document.createElement('input');
 
+	buttonChangeSpan.setAttribute('class', 'glyphicon glyphicon-circle-arrow-up');
+	buttonDeleteSpan.setAttribute('class', 'glyphicon glyphicon-remove-sign');
 	buttonChange.setAttribute('class', 'pic-button pic-change');
 	buttonDelete.setAttribute('class', 'pic-button pic-delete');
 	buttonChange.setAttribute('value', 'Change');
@@ -29,16 +34,23 @@ function picElement(newID, imgsrc) {
 
 	buttonWrapper.setAttribute('class', 'button-wrapper');
 	imgDefault.setAttribute('src', imgsrc);
+	inputDesp.setAttribute('class', 'pic-desp');
+	inputDesp.setAttribute('placeholder', 'Your Title Here');
+	inputDesp.setAttribute('onfocusout', 'updateTitle(this);');
+	inputDesp.setAttribute('value', etitle);
 
-	outputElement.setAttribute('class', 'pic-element');
+	outputElement.setAttribute('class', 'pic-element pic-element-oplow');
 	outputElement.setAttribute('id', newID);
 	
+	buttonChange.appendChild(buttonChangeSpan);
+	buttonDelete.appendChild(buttonDeleteSpan);
 	buttonWrapper.appendChild(buttonChange);
 	buttonWrapper.appendChild(buttonDelete);
 
 	uploadForm.appendChild(idForm);
 	uploadForm.appendChild(fileUpload);
 
+	outputElement.appendChild(inputDesp);
 	outputElement.appendChild(imgDefault);
 	outputElement.appendChild(buttonWrapper);
 	outputElement.appendChild(uploadForm);
@@ -49,7 +61,7 @@ function picElement(newID, imgsrc) {
 function imgChange(element) {
 	var elementID = element.parentNode.parentNode.id;
 	var fileUpload = document.getElementById(elementID).lastChild.lastChild;
-	var currentImg = document.getElementById(elementID).childNodes[0];
+	var currentImg = document.getElementById(elementID).childNodes[1];
 
 	// load uploaded img file & elementID
 	var imgFile = fileUpload.files[0];
@@ -76,6 +88,7 @@ function imgChange(element) {
 function changeImg(element) {
 	var elementID = element.parentNode.parentNode.id;
 	document.getElementById(elementID).lastChild.lastChild.click();
+	element.stopPropagation();
 }
 
 function deleteImg(element) {
@@ -90,6 +103,8 @@ function deleteImg(element) {
 
 	// delete corresponding div in  HTML
 	var currentRoot = element.parentNode.parentNode;
+	currentRoot.classList.remove('pic-element-ophigh');
+	currentRoot.classList.add('pic-element-oplow');
 	currentRoot.parentNode.removeChild(currentRoot);
 }
 
@@ -104,14 +119,28 @@ function addImg() {
 		if (request.readyState == XMLHttpRequest.DONE) {
 			newID = request.responseText;
 			console.log(request.responseText);
-			newElement = picElement(newID, '../images/default.png');
+			newElement = picElement(newID, '../images/default.png', '');
 
 			// add HTML div with elementID
 			var picContainer = document.getElementById('pic-container');
 			picContainer.insertBefore(newElement, picContainer.lastChild.previousSibling);
+			// newElement.classList.remove('pic-element-oplow');
+			newElement.classList.add('pic-element-ophigh');
 		}
 	};
 
+}
+
+function updateTitle(element) {
+	elementID = element.parentNode.id;
+
+	var request = new XMLHttpRequest();
+	request.open('POST', '/title', true);
+	request.setRequestHeader('Content-Type', 'application/json');
+
+	var etitle = document.getElementById(elementID).childNodes[0].value;
+	var sendData = {eid: elementID, title: etitle};
+	request.send(JSON.stringify(sendData));
 }
 
 function initGetImg() {
@@ -128,11 +157,22 @@ function initGetImg() {
 			console.log('init: ' + initArray);
 			initArray.forEach( function(element) {
 				console.log('element: ' + element);
-				newElement = picElement(element, 'http://127.0.0.1:3000/storage/' + element + '.png')
+				newElement = picElement(element.eid, 'http://127.0.0.1:3000/storage/' + element.eid + '.png', element.etitle);
 				picContainer.insertBefore(newElement, picContainer.lastChild.previousSibling);
+				newElement.classList.remove('pic-element-oplow');
 			});
 		}
 	}
+
+	// init sortable drap operation
+	var el = document.getElementById('pic-container');
+	var sortable = Sortable.create(el, {
+		draggable: ".pic-element",
+		ghostClass: "pic-ghost",
+		animation: 500,
+		chosenClass: "pic-chosen",
+		filter: ".button-wrapper .button-add"
+	});
 
 }
 

@@ -3,15 +3,18 @@
 <head>
 	<title>Picture Uploader</title>
 	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel="stylesheet prefetch" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<script src="javascripts/application.js" type="text/javascript" charset="utf-8"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/Sortable/1.4.2/Sortable.min.js"></script>
 </head>
-<body onload="initGetImg();">
-	<h1>Picture Uploader</h1>
-	<a class="download" href="http://127.0.0.1:3000/zip">Download All</a>
+<body id="boot-override" onload="initGetImg();">
+	<h1 id="boot-override-h1">Picture Uploader</h1>
+	<a class="download" href="http://127.0.0.1:3000/zip"><span class="glyphicon glyphicon-save"></span></a>
 	<div class="content">
 		<div id="pic-container" class="pic-container">
 			<div class="button-add">
-			<input type="button" value="+" onclick="addImg();">
+				<a><span class="glyphicon glyphicon-plus" onclick="addImg();"></span>
+				</a>
 			</div>
 		</div>
 	</div>

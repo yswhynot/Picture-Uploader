@@ -1,21 +1,28 @@
-body {
+#boot-override {
 	width: 100%;
+	height: 100%;
+	background-color: whitesmoke;
+	font-family: 'Century Gothic', futura, 'URW Gothic L', Verdana, sans-serif;
 }
-h1 {
-	width: 100%;
+#boot-override-h1 {
+	color: dimgray;
 	text-align: center;
+	text-transform: uppercase;
+	letter-spacing: 0.8em;
+	font-weight: bold;
 }
-
-a {
-	color: #00B7FF;
-}
-
 .download {
 	position: absolute;
-	top: 9%;
-	left: 50%;
-	transform: translate(-50%, 0%);
+	top: 3%;
+	right: 3%;
+	transform: translate(-100%, 0%);
+	color: dimgray;
+	transition: 0.3s;
+	font-size: 2.5em;
 	z-index: 10;
+}
+.download:hover {
+	color: gold;
 }
 
 .content {
@@ -25,64 +32,133 @@ a {
 	width: 100%;
 	height: 100%;
 }
+
 .pic-container {
+	position: absolute;
 	top: 0%;
 	left: 50%;
 	width: 90%;
 	min-height: 50%;
+	transform: translate(-50%, 0%);
 }
+
 .pic-element {
 	float: left;
-	margin: 3%;
-	padding: 2%;
-	width: 15em;
+	margin: 2%;
+	padding: 1%;
+	width: 18em;
 	height: 25em;
-	border: solid 2px #777777;
-	border-radius: 1em;
+	border: solid 0.5em dimgrey;
+	border-radius: 0.5em;
+	transition: 0.5s;
+	background: whitesmoke;
+}
+.pic-element-oplow {
+	opacity: 0.2;
+	transition: 0.3s;
+}
+.pic-element-ophigh {
+	opacity: 1;
+	transition: 0.3s;
+}
+
+.pic-desp {
+	position: relative;
+	width: 90%;
+	height: 2em;
+	font-size: 1.5em;
+	background: whitesmoke;
+	color: dimgray;
+	margin-bottom: 1em;
+	border: none;
+	outline: none;
+	border-bottom: 1px solid dimgray;
+	top: 0%;
+	left: 50%;
+	transform: translate(-50%, 0%);
+}
+input::-webkit-input-placeholder {
+	color: gainsboro;
 }
 .pic-element img {
 	position: relative;
-	top: 5%;
+	top: 10%;
 	left: 50%;
 	transform: translate(-50%, 0%);
-	max-width: 90%;
+	max-width: 85%;
 	width: auto;
-	max-height: 80%;
+	max-height: 50%;
 	height: auto;
 }
+
 .file-uploader {
 	visibility: hidden;
 }
+
 .button-wrapper {
 	position: relative;
-	top: 15%;
+	top: 10%;
 	left: 50%;
 	transform: translateX(-50%);
+	width: 90%;
+	height: 20%;
+	z-index: 2;
 }
 .pic-button {
 	position: absolute;
-	width: 40%;
-	height: 2em;
-	transform: translateX(-50%);
-	font-size: 1.5em;
+	font-size: 2.5em;
+	color: dimgray;
+	transition: .3s;
+}
+.pic-button:hover {
+	color: gold;
+	font-size: 2.7em;
 }
 .pic-change {
-	left: 20%;
+	left: 10%;
 }
 .pic-delete {
-	left: 80%;
+	right: 10%;
 }
+.pic-ghost {
+	opacity: 0.1;
+	border: 1em dashed dimgrey;
+}
+.pic-ghost a {
+	visibility: hidden;
+}
+.pic-chosen {
+	opacity: 0.6;
+}
+.pic-chosen a span{
+	visibility: hidden;
+}
+
 .button-add {
 	float: left;
-	margin: 3%;
+	margin: 2%;
 	padding: 2%;
 	width: 15em;
 	height: 25em;
 }
-.button-add input {
+.button-add:hover {
+	color: lightgray;
+}
+.button-add a {
 	position: relative;
 	top: 30%;
 	left: 50%;
+	width: 3em;
+	height: 3em;
+	padding: 0.5em;
 	transform: translate(-50%, 0%);
 	font-size: 3em;
+	transition: .5s;
+	border: 0.1em dashed lightgray;
+	border-radius: 0.5em;
+	color: lightgray;
+}
+.button-add a:hover {
+	color: gold;
+	border: 0.1em dashed gold;
 }

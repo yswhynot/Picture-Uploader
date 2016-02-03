@@ -23,8 +23,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/change', upload.single('image'), function(req, res, next) {
-	var elementID = req.body.formid;
-	mongoose.changePic(elementID);
+	mongoose.changePic(req.body.formid);
 });
 
 router.post('/delete', function(req, res) {
@@ -52,6 +51,10 @@ router.get('/zip', function(req, res) {
 	mongoose.zipPic(function(zipFile) {
 		res.sendFile(path.resolve(zipFile));
 	})
-})
+});
+
+router.post('/title', function(req, res) {
+	mongoose.updateTitle(req.body.eid, req.body.title);
+});
 
 module.exports = router;
