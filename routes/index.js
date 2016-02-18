@@ -23,7 +23,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/change', upload.single('image'), function(req, res, next) {
-	mongoose.changePic(req.body.formid);
+	mongoose.changePic(req.body.formid, function(res_status) {
+		res.status(res_status.code).send(res_status.msg);
+	});
 });
 
 router.post('/delete', function(req, res) {

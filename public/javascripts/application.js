@@ -20,7 +20,7 @@ function picElement(newID, imgsrc, etitle) {
 	buttonDelete.setAttribute('value', 'Delete');
 	buttonChange.setAttribute('type', 'button');
 	buttonDelete.setAttribute('type', 'button');
-	buttonChange.setAttribute('onclick', 'changeImg(this);');
+	buttonChange.setAttribute('onclick', 'changeImg(this, event);');
 	buttonDelete.setAttribute('onclick', 'deleteImg(this);');
 
 	fileUpload.setAttribute('type', 'file');
@@ -73,22 +73,31 @@ function imgChange(element) {
 	var formSubmit = document.getElementById(elementID).lastChild;
 	formSubmit.firstChild.setAttribute('value', elementID);
 	var formData = new FormData(formSubmit);
-	var xhr = new XMLHttpRequest();
-	xhr.open('POST', '/change');
-	xhr.send(formData);
+	var request = new XMLHttpRequest();
+	request.open('POST', '/change');
+	request.send(formData);
+
+	// get response data
+	request.onreadystatechange = function() {
+		if(request.status == 200 && request.readyState == 4) {
+			console.log(request.responseText);
+			var imgDir = request.responseText;
+			currentImg.setAttribute('src', 'http://127.0.0.1:3000/' + imgDir + '?' + new Date().getTime());
+		}
+	};
 
 	// update HTML img src
-	var reader = new FileReader();
-	reader.onload = function (e) {
-		currentImg.setAttribute('src', e.target.result);
-	}
-	reader.readAsDataURL(imgFile);
+	// var reader = new FileReader();
+	// reader.onload = function (e) {
+	// 	currentImg.setAttribute('src', e.target.result);
+	// }
+	// reader.readAsDataURL(imgFile);
 }
 
-function changeImg(element) {
+function changeImg(element, e) {
 	var elementID = element.parentNode.parentNode.id;
 	document.getElementById(elementID).lastChild.lastChild.click();
-	element.stopPropagation();
+	e.stopPropagation();
 }
 
 function deleteImg(element) {
